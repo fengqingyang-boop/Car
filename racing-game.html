@@ -658,7 +658,7 @@
                         }
 
                         const relativeDistance = car.position - player.position;
-                        const displayPos = this.playerFixedDisplayX + relativeDistance * 0.3;
+                        const displayPos = this.playerFixedDisplayX + relativeDistance;
                         
                         car.displayPosition = displayPos;
                         
@@ -812,7 +812,7 @@
                     const carsToRemove = [];
 
                     this.cars.forEach(car => {
-                        if (!car.active || car.isPlayer) return;
+                        if (!car.active || car.isPlayer || car.beingRemoved) return;
 
                         if (player.lane === car.lane) {
                             const distance = Math.abs(player.position - car.position);
@@ -821,6 +821,7 @@
                                     this.showMessageFunc(`吞噬 ${car.name}！+${car.score}分！`);
                                     player.score += car.score;
                                     car.eatingAnimation = true;
+                                    car.beingRemoved = true;
                                     carsToRemove.push(car.id);
                                     this.eatenCount++;
                                 } else {
@@ -842,6 +843,7 @@
                             setTimeout(() => {
                                 car.active = false;
                                 car.eatingAnimation = false;
+                                car.beingRemoved = false;
                             }, 500);
                         }
                     });
