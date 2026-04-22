@@ -41,31 +41,35 @@
             background: rgba(0, 0, 0, 0.95);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
+            padding: 30px 20px;
             z-index: 100;
+            overflow-y: auto;
         }
 
         .start-screen h1 {
             color: #e74c3c;
-            font-size: 56px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 30px #e74c3c;
+            font-size: 42px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px #e74c3c;
+            flex-shrink: 0;
         }
 
         .start-screen .instructions {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px 40px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            max-width: 600px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            max-width: 750px;
+            flex-shrink: 0;
         }
 
         .start-screen p {
             color: #ecf0f1;
-            font-size: 16px;
-            margin-bottom: 12px;
-            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 6px;
+            line-height: 1.5;
         }
 
         .start-screen p strong {
@@ -73,21 +77,22 @@
         }
 
         .start-btn {
-            margin-top: 20px;
-            padding: 18px 60px;
-            font-size: 28px;
+            margin-top: 10px;
+            padding: 14px 50px;
+            font-size: 22px;
             background: linear-gradient(45deg, #e74c3c, #c0392b);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 25px rgba(231, 76, 60, 0.5);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.5);
+            flex-shrink: 0;
         }
 
         .start-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 35px rgba(231, 76, 60, 0.7);
+            box-shadow: 0 8px 30px rgba(231, 76, 60, 0.7);
         }
 
         .countdown {
@@ -95,10 +100,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 180px;
+            font-size: 160px;
             font-weight: bold;
             color: #f1c40f;
-            text-shadow: 0 0 60px #f1c40f;
+            text-shadow: 0 0 50px #f1c40f;
             z-index: 100;
             animation: pulse 0.8s infinite;
         }
@@ -124,33 +129,33 @@
 
         .game-over-screen h1 {
             color: #2ecc71;
-            font-size: 52px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 30px #2ecc71;
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 25px #2ecc71;
         }
 
         .game-over-screen .stats {
             background: rgba(255, 255, 255, 0.1);
-            padding: 25px 40px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+            padding: 20px 35px;
+            border-radius: 12px;
+            margin-bottom: 15px;
         }
 
         .game-over-screen p {
             color: #ecf0f1;
-            font-size: 20px;
-            margin-bottom: 15px;
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
         .game-over-screen p strong {
             color: #f1c40f;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .restart-btn {
-            margin-top: 20px;
-            padding: 18px 60px;
-            font-size: 28px;
+            margin-top: 15px;
+            padding: 14px 50px;
+            font-size: 22px;
             background: linear-gradient(45deg, #2ecc71, #27ae60);
             color: white;
             border: none;
@@ -271,33 +276,33 @@
 
         .hud-item {
             background: rgba(0, 0, 0, 0.8);
-            padding: 12px 25px;
-            border-radius: 12px;
+            padding: 10px 20px;
+            border-radius: 10px;
             text-align: center;
-            min-width: 140px;
+            min-width: 120px;
         }
 
         .hud-label {
-            font-size: 14px;
+            font-size: 12px;
             color: #bdc3c7;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .speed-display {
             color: #e74c3c;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
         }
 
         .score-display {
             color: #2ecc71;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
         }
 
         .rank-display {
             color: #f1c40f;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
         }
 
@@ -307,16 +312,16 @@
             left: 10px;
             right: 10px;
             background: rgba(0, 0, 0, 0.85);
-            border-radius: 12px;
-            padding: 15px 20px;
+            border-radius: 10px;
+            padding: 12px 15px;
             color: white;
             z-index: 50;
         }
 
         .rankings-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: #f1c40f;
             text-align: center;
         }
@@ -324,16 +329,16 @@
         .rankings-list {
             display: flex;
             justify-content: space-around;
-            gap: 10px;
+            gap: 8px;
         }
 
         .ranking-item {
             text-align: center;
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 6px 10px;
+            border-radius: 6px;
             background: rgba(255, 255, 255, 0.08);
             flex: 1;
-            min-width: 90px;
+            min-width: 75px;
         }
 
         .ranking-item.player {
@@ -347,54 +352,55 @@
         }
 
         .ranking-rank {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             color: #f1c40f;
         }
 
         .ranking-name {
-            font-size: 13px;
-            margin: 4px 0;
+            font-size: 12px;
+            margin: 3px 0;
         }
 
         .ranking-score {
-            font-size: 18px;
+            font-size: 16px;
             color: #2ecc71;
             font-weight: bold;
         }
 
         .ranking-score-add {
-            font-size: 11px;
+            font-size: 10px;
             color: #f39c12;
         }
 
         .controls-hint {
             position: absolute;
-            bottom: 115px;
+            bottom: 105px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.8);
-            padding: 10px 25px;
-            border-radius: 10px;
+            padding: 8px 20px;
+            border-radius: 8px;
             color: white;
-            font-size: 15px;
+            font-size: 13px;
             z-index: 50;
+            white-space: nowrap;
         }
 
         .controls-hint span {
             color: #e74c3c;
             font-weight: bold;
-            padding: 2px 8px;
+            padding: 2px 6px;
             background: rgba(231, 76, 60, 0.2);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .lane-change-hint {
             color: #3498db;
             font-weight: bold;
-            padding: 2px 8px;
+            padding: 2px 6px;
             background: rgba(52, 152, 219, 0.2);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .message {
@@ -402,10 +408,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
             color: #f1c40f;
-            text-shadow: 0 0 20px rgba(241, 196, 15, 0.8);
+            text-shadow: 0 0 15px rgba(241, 196, 15, 0.8);
             z-index: 60;
             animation: messagePop 2s ease-out forwards;
             pointer-events: none;
@@ -413,7 +419,7 @@
 
         @keyframes messagePop {
             0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-            20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            20% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
             80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
         }
@@ -431,13 +437,13 @@
                 <p><span style="color: #3498db; font-weight: bold;">W / ↑</span> - 向上切换车道</p>
                 <p><span style="color: #3498db; font-weight: bold;">Z / ↓</span> - 向下切换车道</p>
                 
-                <p style="margin-top: 20px;"><strong>💥 碰撞规则：</strong></p>
+                <p style="margin-top: 12px;"><strong>💥 碰撞规则：</strong></p>
                 <p>• 时速 <span style="color: #e74c3c; font-weight: bold;">70以下</span> 撞车：自己减速到 30 km/h</p>
                 <p>• 时速 <span style="color: #2ecc71; font-weight: bold;">70及以上</span> 撞车：吞噬对手，继承其全部积分！</p>
                 
-                <p style="margin-top: 20px;"><strong>🏆 积分规则：</strong></p>
-                <p>• 初始积分：10分</p>
-                <p>• 第1名每秒 +5分 | 第2名 +4分 | 第3名 +3分 | 第4名 +2分 | 第5名 +1分</p>
+                <p style="margin-top: 12px;"><strong>🏆 规则说明：</strong></p>
+                <p>• 排名按位置：越靠右（position越大）排名越高</p>
+                <p>• 初始积分：10分 | 第1名每秒+5分 | 第2名+4分 | 第3名+3分 | 第4名+2分 | 第5名+1分</p>
                 <p>• 获胜条件：积分领先第二名 <span style="color: #f1c40f; font-weight: bold;">10分</span></p>
             </div>
             <button class="start-btn" @click="startGame">开始游戏</button>
@@ -481,17 +487,17 @@
             <div class="hud-item">
                 <div class="hud-label">当前速度</div>
                 <div class="speed-display">{{ Math.round(playerCar.speed) }}</div>
-                <div style="font-size: 12px; color: #bdc3c7;">km/h</div>
+                <div style="font-size: 11px; color: #bdc3c7;">km/h</div>
             </div>
             <div class="hud-item">
                 <div class="hud-label">我的积分</div>
                 <div class="score-display">{{ playerCar.score }}</div>
-                <div style="font-size: 12px; color: #bdc3c7;">分</div>
+                <div style="font-size: 11px; color: #bdc3c7;">分</div>
             </div>
             <div class="hud-item">
                 <div class="hud-label">当前排名</div>
-                <div class="rank-display">第 {{ playerRank }} 名</div>
-                <div class="ranking-score-add">+{{ pointsPerSecond }}分/秒</div>
+                <div class="rank-display">第 {{ playerRaceRank }} 名</div>
+                <div class="ranking-score-add">+{{ racePointsPerSecond }}分/秒</div>
             </div>
         </div>
 
@@ -504,9 +510,9 @@
 
         <!-- 排名显示 -->
         <div v-if="gameState === 'playing'" class="rankings">
-            <div class="rankings-title">实时排名（第1名+5分/秒，第2名+4分/秒...）</div>
+            <div class="rankings-title">实时排名（按位置：越靠右排名越高，第1名+5分/秒）</div>
             <div class="rankings-list">
-                <div v-for="(car, index) in allCarsSorted" :key="car.id" 
+                <div v-for="(car, index) in allCarsSortedByPosition" :key="car.id" 
                      class="ranking-item" 
                      :class="{ 
                          player: car.isPlayer,
@@ -515,7 +521,7 @@
                     <div class="ranking-rank">{{ car.active ? (index + 1) : '💀' }}</div>
                     <div class="ranking-name">{{ car.name }}</div>
                     <div class="ranking-score">{{ car.score }}</div>
-                    <div v-if="car.active" class="ranking-score-add">+{{ 5 - index }}分/秒</div>
+                    <div v-if="car.active" class="ranking-score-add">+{{ 5 - getRaceRank(car.id) + 1 }}分/秒</div>
                 </div>
             </div>
         </div>
@@ -556,48 +562,56 @@
                     showMessage: false,
                     messageText: '',
                     messageTimer: null,
-                    eatenCount: 0
+                    eatenCount: 0,
+                    trackLength: 800
                 };
             },
             computed: {
                 playerCar() {
-                    return this.cars.find(car => car.isPlayer) || { score: 0, speed: 0, lane: 0, active: true };
+                    return this.cars.find(car => car.isPlayer) || { score: 0, speed: 0, lane: 0, active: true, position: 0 };
                 },
                 activeCars() {
                     return this.cars.filter(car => car.active);
                 },
-                allCarsSorted() {
-                    const active = [...this.activeCars].sort((a, b) => b.score - a.score);
+                sortedCarsByPosition() {
+                    return [...this.activeCars].sort((a, b) => b.position - a.position);
+                },
+                allCarsSortedByPosition() {
+                    const active = [...this.activeCars].sort((a, b) => b.position - a.position);
                     const inactive = this.cars.filter(car => !car.active);
                     return [...active, ...inactive];
                 },
-                sortedCars() {
-                    return [...this.activeCars].sort((a, b) => b.score - a.score);
+                playerRaceRank() {
+                    return this.getRaceRank(this.playerCar.id);
                 },
-                playerRank() {
-                    const sorted = this.sortedCars;
-                    const index = sorted.findIndex(car => car.isPlayer);
-                    return index >= 0 ? index + 1 : '-';
-                },
-                pointsPerSecond() {
-                    const rank = this.playerRank;
-                    if (rank === '-' || rank > 5) return 0;
+                racePointsPerSecond() {
+                    const rank = this.playerRaceRank;
+                    if (rank === 0) return 0;
                     return 6 - rank;
                 },
+                sortedCarsByScore() {
+                    return [...this.activeCars].sort((a, b) => b.score - a.score);
+                },
                 scoreLead() {
-                    if (this.sortedCars.length < 2) {
-                        if (this.playerCar.active && this.sortedCars.length === 1) {
+                    const sorted = this.sortedCarsByScore;
+                    if (sorted.length < 2) {
+                        if (this.playerCar.active && sorted.length === 1) {
                             return this.playerCar.score;
                         }
                         return 0;
                     }
-                    if (this.sortedCars[0].isPlayer) {
-                        return this.sortedCars[0].score - this.sortedCars[1].score;
+                    if (sorted[0].isPlayer) {
+                        return sorted[0].score - sorted[1].score;
                     }
                     return 0;
                 }
             },
             methods: {
+                getRaceRank(carId) {
+                    const sorted = this.sortedCarsByPosition;
+                    const index = sorted.findIndex(c => c.id === carId);
+                    return index >= 0 ? index + 1 : 0;
+                },
                 initCars() {
                     const colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12'];
                     const names = ['我', '对手A', '对手B', '对手C', '对手D'];
@@ -609,7 +623,7 @@
                             name: names[i],
                             color: colors[i],
                             isPlayer: i === 0,
-                            position: 30 + i * 30,
+                            position: 30 + i * 40,
                             speed: 30,
                             score: 10,
                             active: true,
@@ -711,7 +725,7 @@
                     }
                 },
                 updateScores() {
-                    const sorted = this.sortedCars;
+                    const sorted = this.sortedCarsByPosition;
                     sorted.forEach((car, index) => {
                         const pointsToAdd = 5 - index;
                         car.score += pointsToAdd;
@@ -779,7 +793,7 @@
                         return;
                     }
 
-                    const sorted = this.sortedCars;
+                    const sorted = this.sortedCarsByScore;
                     if (sorted.length >= 2 && sorted[0].isPlayer) {
                         const lead = sorted[0].score - sorted[1].score;
                         if (lead >= 10) {
