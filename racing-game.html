@@ -198,12 +198,6 @@
                 transparent 40px,
                 transparent 80px
             );
-            animation: moveLines 0.3s linear infinite;
-        }
-
-        @keyframes moveLines {
-            from { background-position: 0 0; }
-            to { background-position: -80px 0; }
         }
 
         .car {
@@ -260,6 +254,22 @@
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.5); opacity: 0.5; }
             100% { transform: scale(0); opacity: 0; }
+        }
+
+        .distance-indicator {
+            position: absolute;
+            font-size: 11px;
+            color: #bdc3c7;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .distance-indicator.ahead {
+            color: #e74c3c;
+        }
+
+        .distance-indicator.behind {
+            color: #3498db;
         }
 
         .hud {
@@ -368,6 +378,19 @@
             font-weight: bold;
         }
 
+        .ranking-distance {
+            font-size: 10px;
+            color: #95a5a6;
+        }
+
+        .ranking-distance.ahead {
+            color: #e74c3c;
+        }
+
+        .ranking-distance.behind {
+            color: #3498db;
+        }
+
         .ranking-score-add {
             font-size: 10px;
             color: #f39c12;
@@ -442,7 +465,8 @@
                 <p>• 时速 <span style="color: #2ecc71; font-weight: bold;">70及以上</span> 撞车：吞噬对手，继承其全部积分！</p>
                 
                 <p style="margin-top: 12px;"><strong>🏆 规则说明：</strong></p>
-                <p>• 排名按位置：越靠右（position越大）排名越高</p>
+                <p>• 排名按绝对位置：越靠前（数值越大）排名越高</p>
+                <p>• 车辆超出视野后隐藏，但需要真正加速追赶才会重新出现</p>
                 <p>• 初始积分：10分 | 第1名每秒+5分 | 第2名+4分 | 第3名+3分 | 第4名+2分 | 第5名+1分</p>
                 <p>• 获胜条件：积分领先第二名 <span style="color: #f1c40f; font-weight: bold;">10分</span></p>
             </div>
@@ -460,23 +484,24 @@
                 <div v-for="i in 4" :key="i" class="lane-divider" :style="{ top: (i * 84) + 'px' }"></div>
             </div>
             
-            <div v-for="car in cars" :key="car.id" 
-                 class="car" 
-                 :class="{ 
-                     player: car.isPlayer, 
-                     dead: !car.active,
-                     eaten: car.eatingAnimation
-                 }"
-                 :style="{ 
-                     left: car.position + 'px',
-                     top: (car.lane * 84 + 10) + 'px',
-                     background: car.color,
-                     opacity: car.active ? 1 : 0.3,
-                     display: car.active ? 'flex' : 'none'
-                 }">
-                <div class="car-name">{{ car.name }}</div>
-                <div class="car-speed">{{ Math.round(car.speed) }} km/h</div>
-            </div>
+            <!-- 车辆渲染：只有在视野范围内的才显示 -->
+            <template v-for="car in visibleCars" :key="car.id">
+                <div class="car" 
+                     :class="{ 
+                         player: car.isPlayer, 
+                         dead: !car.active,
+                         eaten: car.eatingAnimation
+                     }"
+                     :style="{ 
+                         left: car.displayPosition + 'px',
+                         top: (car.lane * 84 + 10) + 'px',
+                         background: car.color,
+                         opacity: car.active ? 1 : 0.3
+                     }">
+                    <div class="car-name">{{ car.name }}</div>
+                    <div class="car-speed">{{ Math.round(car.speed) }} km/h</div>
+                </div>
+            </template>
         </div>
 
         <!-- 消息提示 -->
@@ -510,7 +535,7 @@
 
         <!-- 排名显示 -->
         <div v-if="gameState === 'playing'" class="rankings">
-            <div class="rankings-title">实时排名（按位置：越靠右排名越高，第1名+5分/秒）</div>
+            <div class="rankings-title">实时排名（按绝对位置，第1名+5分/秒）</div>
             <div class="rankings-list">
                 <div v-for="(car, index) in allCarsSortedByPosition" :key="car.id" 
                      class="ranking-item" 
@@ -521,6 +546,14 @@
                     <div class="ranking-rank">{{ car.active ? (index + 1) : '💀' }}</div>
                     <div class="ranking-name">{{ car.name }}</div>
                     <div class="ranking-score">{{ car.score }}</div>
+                    <div v-if="car.active && !car.isPlayer" 
+                         class="ranking-distance"
+                         :class="getDistanceClass(car.id)">
+                        {{ formatDistance(getDistanceToPlayer(car.id)) }}
+                    </div>
+                    <div v-else-if="car.active && car.isPlayer" class="ranking-distance">
+                        我
+                    </div>
                     <div v-if="car.active" class="ranking-score-add">+{{ 5 - getRaceRank(car.id) + 1 }}分/秒</div>
                 </div>
             </div>
@@ -563,12 +596,19 @@
                     messageText: '',
                     messageTimer: null,
                     eatenCount: 0,
-                    trackLength: 800
+                    trackWidth: 840,
+                    playerFixedDisplayX: 120
                 };
             },
             computed: {
                 playerCar() {
-                    return this.cars.find(car => car.isPlayer) || { score: 0, speed: 0, lane: 0, active: true, position: 0 };
+                    return this.cars.find(car => car.isPlayer) || { 
+                        score: 0, 
+                        speed: 0, 
+                        lane: 0, 
+                        active: true, 
+                        position: 0 
+                    };
                 },
                 activeCars() {
                     return this.cars.filter(car => car.active);
@@ -604,6 +644,26 @@
                         return sorted[0].score - sorted[1].score;
                     }
                     return 0;
+                },
+                visibleCars() {
+                    const player = this.playerCar;
+                    if (!player) return [];
+
+                    return this.cars.filter(car => {
+                        if (!car.active) return false;
+                        
+                        if (car.isPlayer) {
+                            car.displayPosition = this.playerFixedDisplayX;
+                            return true;
+                        }
+
+                        const relativeDistance = car.position - player.position;
+                        const displayPos = this.playerFixedDisplayX + relativeDistance * 0.3;
+                        
+                        car.displayPosition = displayPos;
+                        
+                        return displayPos >= -100 && displayPos <= this.trackWidth + 100;
+                    });
                 }
             },
             methods: {
@@ -611,6 +671,24 @@
                     const sorted = this.sortedCarsByPosition;
                     const index = sorted.findIndex(c => c.id === carId);
                     return index >= 0 ? index + 1 : 0;
+                },
+                getDistanceToPlayer(carId) {
+                    const car = this.cars.find(c => c.id === carId);
+                    const player = this.playerCar;
+                    if (!car || !player) return 0;
+                    return car.position - player.position;
+                },
+                getDistanceClass(carId) {
+                    const distance = this.getDistanceToPlayer(carId);
+                    return distance > 0 ? 'ahead' : 'behind';
+                },
+                formatDistance(distance) {
+                    const absDistance = Math.abs(Math.round(distance));
+                    if (distance > 0) {
+                        return `领先${absDistance}`;
+                    } else {
+                        return `落后${absDistance}`;
+                    }
                 },
                 initCars() {
                     const colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12'];
@@ -623,12 +701,12 @@
                             name: names[i],
                             color: colors[i],
                             isPlayer: i === 0,
-                            position: 30 + i * 40,
+                            position: i * 100,
+                            displayPosition: 0,
                             speed: 30,
                             score: 10,
                             active: true,
                             lane: i,
-                            targetLane: i,
                             eatingAnimation: false,
                             aiTargetSpeed: 50 + Math.random() * 30
                         });
@@ -700,10 +778,6 @@
                         }
 
                         car.position += car.speed * 0.08;
-                        
-                        if (car.position > 750) {
-                            car.position = 10;
-                        }
                     });
 
                     this.checkCollision();
@@ -742,7 +816,7 @@
 
                         if (player.lane === car.lane) {
                             const distance = Math.abs(player.position - car.position);
-                            if (distance < 70) {
+                            if (distance < 50) {
                                 if (player.speed >= 70) {
                                     this.showMessageFunc(`吞噬 ${car.name}！+${car.score}分！`);
                                     player.score += car.score;
@@ -752,11 +826,10 @@
                                 } else {
                                     this.showMessageFunc('撞车了！减速到30');
                                     player.speed = 30;
-                                    const overlap = 70 - distance;
                                     if (player.position > car.position) {
-                                        player.position = car.position + 80;
+                                        player.position = car.position - 60;
                                     } else {
-                                        player.position = car.position - 80;
+                                        player.position = car.position + 60;
                                     }
                                 }
                             }
